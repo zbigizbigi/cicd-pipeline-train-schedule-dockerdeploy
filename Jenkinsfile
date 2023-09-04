@@ -39,7 +39,7 @@ pipeline {
         branch 'master'
     }
     steps {
-        input 'Deploy to Production: ${env.BUILD_NUMBER}'
+        input 'Deploy to Production: "${env.BUILD_NUMBER}"'
         milestone(1)
         withCredentials ([usernamePassword(credentialsId: 'webserver_login', usernameVariable: 'USERNAME', passwordVariable: 'USERPASS')]) {
             script {
@@ -50,7 +50,7 @@ pipeline {
                 } catch (err) {
                     echo: 'caught error: $err'
                 }
-                sh "sshpass -p '$USERPASS' -v ssh -o StrictHostKeyChecking=no $USERNAME@${env.prod_ip} \"docker run --restart always --name train-schedule -p 8080:8080 -d <DOCKER_HUB_USERNAME>/train-schedule:${env.BUILD_NUMBER}\""
+                sh "sshpass -p '$USERPASS' -v ssh -o StrictHostKeyChecking=no $USERNAME@${env.prod_ip} \"docker run --restart always --name train-schedule -p 8080:8080 -d zbigi/train-schedule:${env.BUILD_NUMBER}\""
             }
         }
     }
