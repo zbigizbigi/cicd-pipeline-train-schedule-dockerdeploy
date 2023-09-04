@@ -14,7 +14,7 @@ pipeline {
             }
             steps {
                 script {
-                    app = docker.build("zbigizbigi/train-schedule")
+                    app = docker.build("zbigi/train-schedule")
                     app.inside {
                         sh 'echo $(curl localhost:8080)'
                     }
